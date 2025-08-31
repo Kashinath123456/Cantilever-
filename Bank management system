@@ -1,0 +1,128 @@
+import java.util.*;
+
+class Account {
+    int accNo;
+    String name;
+    double balance;
+
+    // Constructor
+    public Account(int accNo, String name, double balance) {
+        this.accNo = accNo;
+        this.name = name;
+        this.balance = balance;
+    }
+
+    // Deposit money
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("₹" + amount + " deposited successfully.");
+    }
+
+    // Withdraw money
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            System.out.println("Insufficient Balance!");
+        } else {
+            balance -= amount;
+            System.out.println("₹" + amount + " withdrawn successfully.");
+        }
+    }
+
+    // Check balance
+    public void checkBalance() {
+        System.out.println("Current Balance: ₹" + balance);
+    }
+
+    // Display account details
+    public void displayAccount() {
+        System.out.println("Account No: " + accNo);
+        System.out.println("Name: " + name);
+        System.out.println("Balance: ₹" + balance);
+    }
+}
+
+public class BankSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Map<Integer, Account> accounts = new HashMap<>();
+        int choice;
+
+        while (true) {
+            System.out.println("\n===== BANK MANAGEMENT SYSTEM =====");
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Display Account Details");
+            System.out.println("6. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Account No: ");
+                    int accNo = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Initial Balance: ");
+                    double bal = sc.nextDouble();
+                    accounts.put(accNo, new Account(accNo, name, bal));
+                    System.out.println("Account created successfully!");
+                    break;
+
+                case 2:
+                    System.out.print("Enter Account No: ");
+                    accNo = sc.nextInt();
+                    if (accounts.containsKey(accNo)) {
+                        System.out.print("Enter Amount to Deposit: ");
+                        double dep = sc.nextDouble();
+                        accounts.get(accNo).deposit(dep);
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter Account No: ");
+                    accNo = sc.nextInt();
+                    if (accounts.containsKey(accNo)) {
+                        System.out.print("Enter Amount to Withdraw: ");
+                        double wd = sc.nextDouble();
+                        accounts.get(accNo).withdraw(wd);
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Account No: ");
+                    accNo = sc.nextInt();
+                    if (accounts.containsKey(accNo)) {
+                        accounts.get(accNo).checkBalance();
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Enter Account No: ");
+                    accNo = sc.nextInt();
+                    if (accounts.containsKey(accNo)) {
+                        accounts.get(accNo).displayAccount();
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Thank you for using Bank Management System!");
+                    sc.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        }
+    }
+}
